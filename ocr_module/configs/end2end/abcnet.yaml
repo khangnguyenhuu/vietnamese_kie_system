@@ -1,0 +1,4 @@
+ABC:
+  CONFIDENCE: 0.5
+  CONFIG: "./libs/ABCnet/configs/BAText/CTW1500/attn_R_50.yaml"
+  

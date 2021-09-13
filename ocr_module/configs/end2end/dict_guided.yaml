@@ -1,0 +1,5 @@
+DICT_GUIDED:
+  CONFIDENCE: 0.5
+  CONFIG: "./libs/dict_guided/configs/BAText/VinText/attn_R_50.yaml"
+  DEVICE: "cpu"
+  

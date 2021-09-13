@@ -1,0 +1,13 @@
+CRAFT:
+  TRAINED_MODEL: 'models/craft.pth'
+  TEXT_THRESHOLD: 0.5
+  LOW_TEST: 0.35
+  LINK_THRESHOLD: 0.4
+  CUDA: False
+  CANVAS_SIZE: 1280
+  MAG_RATIO: 1.5
+  POLY: True
+  SHOW_TIME: False
+  TEST_FOLDER: './image'
+  REFINE: FALSE
+  REFINER_MODEL: 'model/craft_refiner_CTW1500.pth'
