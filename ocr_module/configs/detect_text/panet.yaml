@@ -1,0 +1,4 @@
+PANET:
+  MODEL: "model/panet/epoch_10.pth"
+  CONFIG: "libs/MMOCR/configs/textdet/panet/panet_r18_fpem_ffm_600e_ctw1500.py"
+  DEVICE: 'cuda:0'
