@@ -334,51 +334,9 @@ class MMOCR:
                     ' with text detection and recognition algorithms.')
 
         self.detect_model = None
-        if self.td:
-            # Build detection model
-            if not det_config:
-                det_config = os.path.join(config_dir, 'textdet/',
-                                          textdet_models[self.td]['config'])
-            if not det_ckpt:
-                det_ckpt = '' + \
-                    textdet_models[self.td]['ckpt']
-
-            self.detect_model = init_detector(
-                det_config, det_ckpt, device=self.device)
-            self.detect_model = revert_sync_batchnorm(self.detect_model)
-
         self.recog_model = None
-        if self.tr:
-            # Build recognition model
-            if not recog_config:
-                recog_config = os.path.join(
-                    config_dir, 'textrecog/',
-                    textrecog_models[self.tr]['config'])
-            if not recog_ckpt:
-                recog_ckpt = '' + \
-                    'textrecog/' + textrecog_models[self.tr]['ckpt']
-
-            self.recog_model = init_detector(
-                recog_config, recog_ckpt, device=self.device)
-            self.recog_model = revert_sync_batchnorm(self.recog_model)
-
         self.kie_model = None
-        if self.kie:
-            # Build key information extraction model
-            if not kie_config:
-                kie_config = os.path.join(config_dir, 'kie/',
-                                          kie_models[self.kie]['config'])
-            if not kie_ckpt:
-                kie_ckpt = 'https://download.openmmlab.com/mmocr/' + \
-                    'kie/' + kie_models[self.kie]['ckpt']
-
-            kie_cfg = Config.fromfile(kie_config)
-            self.kie_model = build_detector(
-                kie_cfg.model, test_cfg=kie_cfg.get('test_cfg'))
-            self.kie_model = revert_sync_batchnorm(self.kie_model)
-            self.kie_model.cfg = kie_cfg
-            load_checkpoint(self.kie_model, kie_ckpt, map_location=self.device)
-
+    
         # Attribute check
         for model in list(filter(None, [self.recog_model, self.detect_model])):
             if hasattr(model, 'module'):
@@ -389,6 +347,7 @@ class MMOCR:
 
     def readtext(self,
                  img,
+                 detect_model,
                  output=None,
                  details=False,
                  export=None,
@@ -410,20 +369,12 @@ class MMOCR:
         self.args = args
         new_img_arr = np.array([img])
         pp_result = None
-
         # Send args and models to the MMOCR model inference API
         # and call post-processing functions for the output
-        if self.detect_model and self.recog_model:
-            det_recog_result = self.det_recog_kie_inference(
-                self.detect_model, self.recog_model, kie_model=self.kie_model)
-            pp_result = self.det_recog_pp(det_recog_result)
-        else:
-            for model in list(
-                    filter(None, [self.recog_model, self.detect_model])):
-                result = self.single_inference(model, new_img_arr,
-                                               args.batch_mode,
-                                               args.single_batch_size)
-                pp_result = self.single_pp(result, model)
+        result = self.single_inference(detect_model, new_img_arr,
+                                        args.batch_mode,
+                                        args.single_batch_size)
+        pp_result = self.single_pp(result, detect_model)
         return pp_result
 
     # Post processing function for end2end ocr
