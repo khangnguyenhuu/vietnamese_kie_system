@@ -15,14 +15,14 @@ from utils import get_config, loadImage, tlwh_2_maxmin
 # Panet's model 
 ocr=MMOCR()
 device='cuda:0'
-det_config = "/content/MMOCR-copy/configs/textdet/panet/panet_r18_fpem_ffm_600e_ctw1500.py"
-det_ckpt = "/content/MMOCR-copy/panet/epoch_10.pth"
+det_config = "libs/MMOCR/configs/textdet/panet/panet_r18_fpem_ffm_600e_ctw1500.py"
+det_ckpt = "model/panet/epoch_10.pth"
 detect_model = init_detector(det_config, det_ckpt, device=device)
 detect_model = revert_sync_batchnorm(detect_model)
 
 
 # VietOCR's model
-config_reg = Cfg.load_config_from_file("config.yml")
+config_reg = Cfg.load_config_from_file("model/vietocr/config.yml")
 reg_model = Predictor(config_reg)
 
 def convert_xyminmax(list_box):
