@@ -1,13 +1,11 @@
-import os
-import glob
 from libs.MMOCR.mmocr.utils.ocr import MMOCR
 import cv2
 import numpy as np
-
-import matplotlib.pyplot as plt
 from PIL import Image
+from libs.vietocr.vietocr.tool.predictor import Predictor
+from libs.vietocr.vietocr.tool.config import Cfg
 from vietocr.tool.predictor import Predictor
-from vietocr.tool.config import Cfg
+
 
 from libs.MMOCR.mmocr.apis import init_detector
 from libs.MMOCR.mmocr.utils.model import revert_sync_batchnorm
@@ -24,8 +22,8 @@ detect_model = revert_sync_batchnorm(detect_model)
 
 
 # VietOCR's model
-config = Cfg.load_config_from_name('vgg_transformer')
-model_reg = "mode.pth"  
+config_reg = Cfg.load_config_from_file("config.yml")
+reg_model = Predictor(config_reg)
 
 def convert_xyminmax(list_box):
     new_list = []
@@ -47,3 +45,11 @@ if __name__ == '__main__':
     img_path = "demo.png"
     img = cv2.imread(img_path)
     boxs = predict_detection(img,ocr,detect_model)
+    contents=[]
+    for box in boxs:
+        line = img[box[1]:box[3],box[0]:box[2]]
+        line = Image.fromarray(line)
+        text = reg_model.predict(line)
+        contents.append(text)
+        print("boxs:",box)
+        print("contents:",text)
