@@ -11,9 +11,7 @@ def main():
     args = parser.parse_args()
     config = Cfg.load_config_from_file(args.config)
 
-    print(config)
-
-    trainer = Trainer(config, pretrained=False)
+    trainer = Trainer(config)
 
     if args.checkpoint:
         trainer.load_checkpoint(args.checkpoint)

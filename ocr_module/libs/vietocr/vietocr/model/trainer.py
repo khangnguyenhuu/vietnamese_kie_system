@@ -122,21 +122,18 @@ class Trainer():
                 print(info) 
                 self.logger.log(info)
 
-            #if self.valid_annotation and self.iter % self.valid_every == 0:
-            #    val_loss = self.validate()
-            #    acc_full_seq, acc_per_char = self.precision(self.metrics)
+            if self.valid_annotation and self.iter % self.valid_every == 0:
+                val_loss = self.validate()
+                acc_full_seq, acc_per_char = self.precision(self.metrics)
 
-            #    info = 'iter: {:06d} - valid loss: {:.3f} - acc full seq: {:.4f} - acc per char: {:.4f}'.format(self.iter, val_loss, acc_full_seq, acc_per_char)
-            #    print(info)
-            #    self.logger.log(info)
+                info = 'iter: {:06d} - valid loss: {:.3f} - acc full seq: {:.4f} - acc per char: {:.4f}'.format(self.iter, val_loss, acc_full_seq, acc_per_char)
+                print(info)
+                self.logger.log(info)
 
-            #    if acc_full_seq > best_acc:
-            #        self.save_weights(self.export_weights)
-            #        best_acc = acc_full_seq
+                if acc_full_seq > best_acc:
+                    self.save_weights(self.export_weights)
+                    best_acc = acc_full_seq
 
-            if self.iter % self.valid_every == 0:
-                self.save_checkpoint(self.checkpoint)
-                self.save_weights(self.export_weights)
             
     def validate(self):
         self.model.eval()
@@ -273,7 +270,6 @@ class Trainer():
                 'optimizer': self.optimizer.state_dict(), 'train_losses': self.train_losses}
         
         path, _ = os.path.split(filename)
-        filename = filename[:-4] + str(self.iter) + ".pth"
         os.makedirs(path, exist_ok=True)
 
         torch.save(state, filename)
