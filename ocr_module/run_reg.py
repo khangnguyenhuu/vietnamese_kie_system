@@ -5,6 +5,3 @@ import PIL
 import numpy as np
 import time
 import mmocr.utils.ocr as ocr
-
-class orc:
-    def __init__(args)
