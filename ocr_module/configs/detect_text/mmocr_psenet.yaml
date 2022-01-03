@@ -1,3 +1,0 @@
-MMOCR:
-  CHECKPOINT : '/mlcv/WorkingSpace/Projects/SceneText/thuyentd/source/mmocr/runs/train/fcenet_r50dcnv2_fpn_100e_VietSceneText_10062021/epoch_100.pth'
-  CONFIG_PY: '/mlcv/WorkingSpace/Projects/SceneText/thuyentd/source/mmocr/runs/train/fcenet_r50dcnv2_fpn_100e_VietSceneText_10062021/fcenet_r50dcnv2_fpn_100e_VietSceneText_10062021.py'
