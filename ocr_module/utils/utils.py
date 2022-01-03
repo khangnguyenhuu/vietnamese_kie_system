@@ -17,29 +17,14 @@ def loadImage(img_file):
 
     return img
 
-def tlwh_2_maxmin(bboxes):
-    new_bboxes = []
-    for bbox in bboxes:
-        xmin, ymin, xmax, ymax = bbox[0], bbox[1], bbox[0] + bbox[2], bbox[1] + bbox[3]
-        new_bboxes.append([xmin, ymin, xmax, ymax])
-    new_bboxes = np.array(new_bboxes)
-    return new_bboxes
-
-
-def json2txt (json_path, txt_folder):
-    '''
-    args: json_path: path to json output file
-          txt_folder: path to txt folder when convert done
-    return:
-          convert json output file to txt file to evaluate mAP
-    '''
-    with open(json_path, "r") as fp:
-        if os.path.exists(txt_folder) == False:
-            os.mkdir(txt_folder)
-        data = json.load(fp)
-        for image in data:
-            txt_file = open (os.path.join(txt_folder, image['image_name']) + ".txt", "a+")
-            for result in image['result']:
-                txt_file.write("{} {} {} {} {} {} {}".format(result['text'], "1", result['x_min'], result['y_min'], \
-                                                                               result['x_max'], result['y_max'], "\n"))
-
+def convert_xyminmax(list_box):
+    new_list = []
+    for box in list_box[0]["boundary_result"]:
+        box = box[:-1]
+        xmin = int(min(box[0::2])-5)
+        xmax = int(max(box[0::2])+5)
+        ymin = int(min(box[1::2])-5)
+        ymax = int(max(box[1::2])+5)
+        new_list.append([xmin, ymin, xmax, ymax])
+    
+    return new_list
