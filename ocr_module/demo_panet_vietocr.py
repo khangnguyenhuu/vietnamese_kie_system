@@ -13,7 +13,7 @@ TextRecog = VietOCR()
 if __name__ == '__main__':
     img_path = "demo.png"
     img = cv2.imread(img_path)
-    box = PanNet.detect(img)
+    boxs = TextDet.detect(img)
     contents=[]
     for box in boxs:
         line = img[box[1]:box[3],box[0]:box[2]]
