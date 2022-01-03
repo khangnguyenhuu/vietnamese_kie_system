@@ -4,10 +4,10 @@ from PIL import Image
 
 from src.pannet.pannet_predict import PanNet
 from src.vietocr.vietocr_predict import VietOCR
-from utils import get_config, loadImage, tlwh_2_maxmin
+from utils import get_config, loadImage
 
 
-TextDet = PanNet()
+TextDet = PanNet(device="cpu")
 TextRecog = VietOCR()
 
 if __name__ == '__main__':
