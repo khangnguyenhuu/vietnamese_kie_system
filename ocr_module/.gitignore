@@ -140,10 +140,9 @@ myEnv/
 logfile/
 
 #model
-models/
+model/
 *.zip
-## model abcnet
-.\libs\ABCnet\models
+
 
 
 # Visualize output
