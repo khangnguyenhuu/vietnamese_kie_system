@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from routes import check_cuda, detect
-from utils.logger import logger
+from app.routes import check_cuda, detect
+from app.utils.logger import logger
 import time
 
 app = FastAPI()
