@@ -59,7 +59,6 @@ class SDMGR():
         bboxes_text:
             1, 1, 1, 1, 1, 1, 1, 1, text
         '''
-        print(bboxes_text)
         img_e2e_res = {}
         img_e2e_res['filename'] = "temp"
         img_e2e_res['result'] = []
@@ -88,10 +87,11 @@ class SDMGR():
                                                 ann_info['bboxes'])
         ann_info['gt_bboxes'] = ann_info.get('gt_bboxes',
                                                 ann_info['bboxes'])
-        kie_result, data = model_inference(self.model, \
+                                                
+        kie_result = model_inference(self.model, \
                                             image, \
                                             ann=ann_info, \
-                                            return_data=True)
+                                            return_data=False)
         kie_result = self.generate_kie_labels(kie_result, bboxes_text, "./data_kie/class_list.txt")
         return kie_result
 

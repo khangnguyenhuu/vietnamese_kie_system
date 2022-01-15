@@ -1,2 +1,3 @@
-cd weights
-gdown --id 1AnfzE4B2NNeHsyF4mvCZPKJ-f_ICpwUw --output model.pth
+cd ./app
+gdown --id 1hbU9ZJPWcF8ExskbanB9977Mf7vjHfFy
+unzip experiments

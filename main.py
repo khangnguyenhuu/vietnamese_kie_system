@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import check_cuda, detect
+from app.routes import check_cuda, key_info_extract
 from app.utils.logger import logger
 import time
 
@@ -29,9 +29,9 @@ async def add_process_time_header(request: Request, call_next):
 
 # Router
 app.include_router(check_cuda.router)
-app.include_router(detect.router)
+app.include_router(key_info_extract.router)
 
 # Routes
 @app.get('/')
 def home():
-    return {'message': 'Hello World!'}
+    return {'message': 'Key information extraction service'}

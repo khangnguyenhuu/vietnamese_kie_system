@@ -21,7 +21,7 @@ for i, box in enumerate(bboxes_2_points):
     line = image[box[1]:box[3],box[0]:box[2]]
     line = Image.fromarray(line)
     text = TextRecog.recognize(line)
-    x1, y1, x2, y2, x3, y3, x4, y4 = bboxes_4_points[i][:]
+    x1, y1, x2, y2, x3, y3, x4, y4 = bboxes_4_points[i]
     box_feed_to_kie.append([x1, y1, x2, y2, x3, y3, x4, y4, text])
 kie_result = KIE.extract_infor(image, box_feed_to_kie)
 print(kie_result)
