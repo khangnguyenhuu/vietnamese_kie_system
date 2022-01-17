@@ -23,7 +23,7 @@ from .base import KIE
 class SDMGR():
     def __init__(self, \
         		    config_path="./app/experiments/sdmgr/sdmgr_unet16_60e_wildreceipt.py", \
-                model_path="./app/experiments/sdmgr/epoch_54.pth", \
+                model_path="./app/experiments/sdmgr/epoch_81.pth", \
                 device="cuda:0"):
         # build the model and load checkpoint
         self.model = None
