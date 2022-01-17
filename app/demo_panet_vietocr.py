@@ -6,10 +6,6 @@ from src.pannet.pannet_predict import PanNet
 from src.vietocr.vietocr_predict import VietOCR
 from utils import get_config, loadImage
 
-
-TextDet = PanNet(device="cpu")
-TextRecog = VietOCR()
-
 if __name__ == '__main__':
     img_path = "demo.png"
     img = cv2.imread(img_path)
