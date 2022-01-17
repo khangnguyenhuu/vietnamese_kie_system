@@ -22,20 +22,24 @@ RUN apt-get update --allow-releaseinfo-change && apt-get install -y libgbm-dev -
 
 WORKDIR /app
 
-COPY ./app /app
+COPY . /app
 
-COPY ./download_weights.sh /app
-
-# Setup for ABCNetv2
+# General package
 RUN python3 -m pip install --upgrade pip && pip3 install torch==1.5.1 torchvision==0.6.1 \
     && pip3 install pyyaml==5.4.1 ninja yacs cython matplotlib tqdm opencv-python shapely scipy \
         tensorboardX pyclipper Polygon3 weighted-levenshtein editdistance easydict pythran \
     && pip3 install git+git://github.com/facebookresearch/detectron2.git@9eb4831f742ae6a13b8edb61d07b619392fb6543 \
     && pip3 install dict_trie nvidia-ml-py3
+## MMDet package
+RUN pip install mmdet
 
-RUN cd libs/AdelaiDet \
-    && pip3 install scikit-image==0.17.2 \
-    && python3 setup.py install -v
+# MMOCR package
+RUN cd app/libs/MMOCR &&\
+    pip install -r requirements.txt &&\
+    pip install -v -e .  # or "python setup.py develop" &&\
+    export PYTHONPATH=$(pwd):$PYTHONPATH
+# VietOCR package
+RUN pip3 install vietocr
 
 # Download model weights
 RUN pip3 install gdown && bash download_weights.sh
