@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import time
 from PIL import Image
+import torch
 
 from fastapi import APIRouter, Form, File, UploadFile
 from ..src.pannet_predict import PanNet
@@ -10,6 +11,7 @@ from ..src.vietocr_predict import VietOCR
 from ..src.sdmgr_predict import SDMGR
 from ..utils.logger import logger
 
+#mem_1 = round(torch.cuda.memory_allocated(0)/1024**3,1)
 try:
   logger.info(f'[LOADING] Text detection model')
   start = time.time()
@@ -41,6 +43,9 @@ except:
   logger.error(f'[ERROR LOADING] Key information extraction model')
 
 router = APIRouter()
+#mem_2 = round(torch.cuda.memory_allocated(0)/1024**3,1)
+
+#logger.info("[MEMORY USAGE] Load model {} is GB".format(str(mem_2-mem_1)))
 
 @router.post('/kie')
 def detect(file: UploadFile = File(...)):
@@ -56,6 +61,7 @@ def detect(file: UploadFile = File(...)):
     image = np.asarray(image)[:, :, ::-1]
     logger.info(f'[START PROCESSING] Detect text')
     start = time.time()
+    #mem_1 = round(torch.cuda.memory_allocated(0)/1024**3,1)
     bboxes_2_points, bboxes_4_points = TextDet.detect(image)
     end = time. time()
     logger.info(f'[END PROCESSING] Detect text')
@@ -65,12 +71,17 @@ def detect(file: UploadFile = File(...)):
     logger.info(f'[START PROCESSING] Recognize text')
     start = time.time()
     for i, box in enumerate(bboxes_2_points):
-        line = image[box[1]:box[3],box[0]:box[2]]
-        line = Image.fromarray(line)
-        text = TextRecog.recognize(line)
-        x1, y1, x2, y2, x3, y3, x4, y4 = bboxes_4_points[i]
-        box_feed_to_kie.append([x1, y1, x2, y2, x3, y3, x4, y4, text])
+        try:
+          line = image[box[1]:box[3],box[0]:box[2]]
+          line = Image.fromarray(line)
+          text = TextRecog.recognize(line)
+          x1, y1, x2, y2, x3, y3, x4, y4 = bboxes_4_points[i]
+          box_feed_to_kie.append([x1, y1, x2, y2, x3, y3, x4, y4, text])
+        except:
+          pass
     end = time.time()
+    #logger.info("[MEMORY USAGE] Predict a image {} is GB".format(str(mem_2-mem_1)))
+    #mem_2 = round(torch.cuda.memory_allocated(0)/1024**3,1)
     logger.info(f'[END PROCESSING] Recognize text')
     logger.info('[TEXT RECOGNITION PROCESS TIME] {}'.format(end-start))
     
