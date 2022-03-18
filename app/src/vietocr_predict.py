@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, "../../")
-from ..libs.vietocr.vietocr.tool.predictor import Predictor
-from ..libs.vietocr.vietocr.tool.config import Cfg
+from libs.vietocr.vietocr.tool.predictor import Predictor
+from libs.vietocr.vietocr.tool.config import Cfg
 from .base import TextRecog
 class VietOCR(TextRecog):
 

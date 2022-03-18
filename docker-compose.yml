@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  scenetext_service:
+  kie_service:
     build: .
     volumes:
       - /app/weights

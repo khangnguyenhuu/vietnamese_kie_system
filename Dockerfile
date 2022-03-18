@@ -24,25 +24,30 @@ WORKDIR /app
 
 COPY . /app
 
-# General package
+# # General package
 RUN python3 -m pip install --upgrade pip && pip3 install torch==1.5.1 torchvision==0.6.1 \
     && pip3 install pyyaml==5.4.1 ninja yacs cython matplotlib tqdm opencv-python shapely scipy \
         tensorboardX pyclipper Polygon3 weighted-levenshtein editdistance easydict pythran \
     && pip3 install git+git://github.com/facebookresearch/detectron2.git@9eb4831f742ae6a13b8edb61d07b619392fb6543 \
     && pip3 install dict_trie nvidia-ml-py3
+
 ## MMDet package
-RUN pip install mmdet
+RUN pip3 install mmdet==2.14.0
+
+# mmcv packet
+RUN pip3 install mmcv-full==1.4.0
 
 # MMOCR package
-RUN cd app/libs/MMOCR &&\
-    pip install -r requirements.txt &&\
-    pip install -v -e .  # or "python setup.py develop" &&\
-    export PYTHONPATH=$(pwd):$PYTHONPATH
-# VietOCR package
-RUN pip3 install vietocr
+# RUN cd app/libs/MMOCR && ls && pip install -r requirements.txt &&  pip install -v -e . && export PYTHONPATH=$(pwd):$PYTHONPATH
+RUN pip3 install mmocr
 
 # Download model weights
-RUN pip3 install gdown && bash download_weights.sh
+RUN pip3 install gdown &&\
+    cd app &&\
+    bash download_weights.sh && unzip -o experiments.zip
+    
+# VietOCR package
+RUN pip3 install vietocr
 
 # Setup for FastAPI
 RUN pip3 install fastapi uvicorn[standard] python-multipart

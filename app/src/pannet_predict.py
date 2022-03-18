@@ -1,7 +1,9 @@
-from ..libs.MMOCR.mmocr.utils.ocr import MMOCR
-from ..libs.MMOCR.mmocr.apis import init_detector
-from ..libs.MMOCR.mmocr.utils.model import revert_sync_batchnorm
-from ..utils.utils import convert_xyminmax
+import sys
+sys.path.insert(0, "../")
+from libs.MMOCR.mmocr.utils.ocr import MMOCR
+from libs.MMOCR.mmocr.apis import init_detector
+from libs.MMOCR.mmocr.utils.model import revert_sync_batchnorm
+from utils.utils import convert_xyminmax
 from .base import TextDetector
 
 

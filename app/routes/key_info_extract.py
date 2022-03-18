@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, "../")
 import io
 import cv2
 import numpy as np
@@ -6,10 +8,10 @@ from PIL import Image
 import torch
 
 from fastapi import APIRouter, Form, File, UploadFile
-from ..src.pannet_predict import PanNet
-from ..src.vietocr_predict import VietOCR
-from ..src.sdmgr_predict import SDMGR
-from ..utils.logger import logger
+from src.pannet_predict import PanNet
+from src.vietocr_predict import VietOCR
+from src.sdmgr_predict import SDMGR
+from utils.logger import logger
 
 #mem_1 = round(torch.cuda.memory_allocated(0)/1024**3,1)
 try:
@@ -22,15 +24,15 @@ try:
 except:
   logger.error(f'[ERROR LOADING] Text detection model')
 
-#try:
-logger.info(f'[LOADING] Text recognition model')
-start = time.time()
-TextRecog = VietOCR()
-end = time.time()
-logger.info(f'[LOADING SUCESS] Text recognition model')
-logger.info('[PROCESS TIME] {}'.format(end-start))
-#except:
- # logger.error(f'[ERROR LOADING] Text recognition model')
+try:
+  logger.info(f'[LOADING] Text recognition model')
+  start = time.time()
+  TextRecog = VietOCR()
+  end = time.time()
+  logger.info(f'[LOADING SUCESS] Text recognition model')
+  logger.info('[PROCESS TIME] {}'.format(end-start))
+except:
+  logger.error(f'[ERROR LOADING] Text recognition model')
 
 try:
   logger.info(f'[LOADING] Key information extraction model')
