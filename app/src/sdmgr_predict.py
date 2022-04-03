@@ -22,8 +22,8 @@ from mmocr.utils import revert_sync_batchnorm
 from .base import KIE
 class SDMGR():
     def __init__(self, \
-        		    config_path="./app/experiments/sdmgr/sdmgr_unet16_60e_wildreceipt.py", \
-                model_path="./app/experiments/sdmgr/epoch_81.pth", \
+        		config_path="./experiments/sdmgr/sdmgr_unet16_60e_wildreceipt.py", \
+                model_path="./experiments/sdmgr/epoch_81.pth", \
                 device="cuda:0"):
         # build the model and load checkpoint
         self.model = None
@@ -92,6 +92,6 @@ class SDMGR():
                                             image, \
                                             ann=ann_info, \
                                             return_data=False)
-        kie_result = self.generate_kie_labels(kie_result, bboxes_text, "./data_kie/class_list.txt")
+        kie_result = self.generate_kie_labels(kie_result, bboxes_text, "./class_list.txt")
         return kie_result
 

@@ -50,7 +50,7 @@ router = APIRouter()
 #logger.info("[MEMORY USAGE] Load model {} is GB".format(str(mem_2-mem_1)))
 
 @router.post('/kie')
-def detect(file: UploadFile = File(...)):
+def KIE(file: UploadFile = File(...)):
     # Read image from bytes
     try:
         image = Image.open(io.BytesIO(file.file.read())).convert('RGB')

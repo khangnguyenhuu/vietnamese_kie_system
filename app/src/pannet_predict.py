@@ -9,8 +9,8 @@ from .base import TextDetector
 
 class PanNet(TextDetector):
     def __init__(self,
-                 config_path="./app/libs/MMOCR/configs/textdet/panet/panet_r18_fpem_ffm_600e_ctw1500.py",
-                 model_path="./app/experiments/panet/epoch_120_resnet15.pth",
+                 config_path="../libs/MMOCR/configs/textdet/panet/panet_r18_fpem_ffm_600e_ctw1500.py",
+                 model_path="./experiments/panet/epoch_120_resnet15.pth",
                  device="cuda:0"):
         self.ocr = MMOCR()
         self.device = device

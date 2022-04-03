@@ -22,13 +22,13 @@ RUN apt-get update --allow-releaseinfo-change && apt-get install -y libgbm-dev -
 
 WORKDIR /app
 
-COPY . /app
+COPY ./app /app
 
 # # General package
 RUN python3 -m pip install --upgrade pip && pip3 install torch==1.5.1 torchvision==0.6.1 \
     && pip3 install pyyaml==5.4.1 ninja yacs cython matplotlib tqdm opencv-python shapely scipy \
         tensorboardX pyclipper Polygon3 weighted-levenshtein editdistance easydict pythran \
-    && pip3 install git+git://github.com/facebookresearch/detectron2.git@9eb4831f742ae6a13b8edb61d07b619392fb6543 \
+    && pip3 install git+https://github.com/facebookresearch/detectron2.git@9eb4831f742ae6a13b8edb61d07b619392fb6543 \
     && pip3 install dict_trie nvidia-ml-py3
 
 ## MMDet package
@@ -43,8 +43,7 @@ RUN pip3 install mmocr
 
 # Download model weights
 RUN pip3 install gdown &&\
-    cd app &&\
-    bash download_weights.sh && unzip -o experiments.zip
+    gdown 17X_ehHvPTUwlFT4SjcbnHXVcydvXOq0L && unzip -o experiments.zip
     
 # VietOCR package
 RUN pip3 install vietocr

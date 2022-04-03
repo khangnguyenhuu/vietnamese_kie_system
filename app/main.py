@@ -34,4 +34,4 @@ app.include_router(key_info_extract.router)
 # Routes
 @app.get('/')
 def home():
-    return {'message': 'Hello World!'}
+    return {'message': 'Key information extraction service'}

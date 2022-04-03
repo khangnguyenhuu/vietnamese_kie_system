@@ -5,7 +5,7 @@ from libs.vietocr.vietocr.tool.config import Cfg
 from .base import TextRecog
 class VietOCR(TextRecog):
 
-    def __init__(self, config_path="./app/experiments/vietocr/config.yml"):
+    def __init__(self, config_path="./experiments/vietocr/config.yml"):
         self.config = Cfg.load_config_from_file(config_path)
         self.model = Predictor(self.config)
         
